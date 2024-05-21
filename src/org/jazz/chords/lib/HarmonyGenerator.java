@@ -217,143 +217,21 @@ public class HarmonyGenerator {
 		
 		// calculate probabilities of keys and first chord
 		calculateKeysProbabilities( songs );
-		//System.out.println( "Keys probabilities: ");
-		//System.out.println( keysWithProbabilities );
 		
 		// calculate probabilities of time signatures
 		calculateTimeSignaturesProbabilities( songs );
-		//System.out.println( "Time signatures probabilities: ");
-		//System.out.println( timeSignaturesProbabilities );
 		
 		// calculate probabilities of structures
 		calculateStructuresProbabilities( songs );
-/*		System.out.println( "Structures probabilities: ");
-		DecimalFormat df = new DecimalFormat("#.###");
-		Map<String, Double> sortedMap = structuresWithProbabilities.entrySet()
-                .stream()
-                .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
-                .collect(Collectors.toMap(
-                        Map.Entry::getKey,
-                        Map.Entry::getValue,
-                        (oldValue, newValue) -> oldValue, // Merge function to handle duplicates (if any)
-                        LinkedHashMap::new // Keep the order of insertion
-                ));
-        //sortedMap.forEach((key, value) -> System.out.println(key + " & " + df.format(value) + " \\\\"));
-        // Generate LaTeX table
-        StringBuilder latexTable = new StringBuilder();
-        latexTable.append("\\begin{tabular}{|l|l|}\n");
-        latexTable.append("\\hline\n");
-        latexTable.append("Key & Value \\\\ \n");
-        latexTable.append("\\hline\n");
-        int rowCount = 0;
-        for (Entry<String, Double> entry : sortedMap.entrySet()) {
-            latexTable.append(entry.getKey()).append(" & ").append(df.format(entry.getValue())).append(" \\\\ \n");
-            rowCount++;
-            // If 55 rows reached, start a new column
-            if (rowCount % 55 == 0) {
-                if (rowCount > 0) {
-                    // Close the previous tabular environment
-                    latexTable.append("\\end{tabular}\n");
-                    latexTable.append("\\hspace{1cm}\n"); // Add space between columns
-                }
-                // Start a new tabular environment for the next 50 rows
-                latexTable.append("\\begin{tabular}{|l|l|}\n");
-                latexTable.append("\\hline\n");
-                latexTable.append("Key & Value \\\\ \n");
-                latexTable.append("\\hline\n");
-            }
-            latexTable.append(entry.getKey()).append(" & ").append(df.format(entry.getValue())).append(" \\\\ \n");
-            rowCount++;
-        }
-        // Close the last tabular environment
-        latexTable.append("\\end{tabular}\n");
-        // Print the LaTeX table
-        System.out.println(latexTable.toString());
-*/		
+		
 		// calculate probabilities of chords per bar patterns
 		calculateChordsPatternsProbabilties( songs );
-		//System.out.println( "Chords patterns probabilities: ");
-		//System.out.println( chordsPatternProbabilities );
-/*
-        // Sort the filtered map by value in descending order
-        Map<String, Double> sortedMap = chordsPatternProbabilities.entrySet().stream()
-                .filter(entry -> entry.getKey().equals("v"))
-                .flatMap(entry -> entry.getValue().entrySet().stream())
-                .sorted(Map.Entry.<String, Double>comparingByValue().reversed())
-                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (oldValue, newValue) -> oldValue, LinkedHashMap::new));
-        // Print the LaTeX table
-        System.out.println("\\begin{table}[h]");
-        System.out.println("\\centering");
-        System.out.println("\\begin{tabular}{|c|c|}");
-        System.out.println("\\hline");
-        System.out.println("Pattern & Probability \\\\");
-        System.out.println("\\hline");
-        for (Map.Entry<String, Double> entry : sortedMap.entrySet()) {
-            System.out.printf("%s & %.3f \\\\\n", entry.getKey(), entry.getValue());
-        }
-        System.out.println("\\hline");
-        System.out.println("\\end{tabular}");
-        System.out.println("\\caption{Section \"A\" most common patterns probabilities}");
-        System.out.println("\\label{table:A_patterns_probabilities}");
-        System.out.println("\\end{table}");
-*/     
+ 
 		// calculate probabilities of fisrt chord by key
 		calculateFirstChordProbabilities( songs );
-/*
-		        // Sort the filtered map by value in descending order
-		        Map<String, Double> sortedMap = firstChordWithProbabilities.entrySet().stream()
-		                .filter(entry -> entry.getKey().equals("G#min"))
-		                .flatMap(entry -> entry.getValue().entrySet().stream())
-		                .sorted(Map.Entry.<String, Double>comparingByValue().reversed())
-		                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (oldValue, newValue) -> oldValue, LinkedHashMap::new));
-		        // Print the LaTeX table
-		        System.out.println("\\begin{table}[h]");
-		        System.out.println("\\centering");
-		        System.out.println("\\begin{tabular}{|c|c|}");
-		        System.out.println("\\hline");
-		        System.out.println("Chord & Probability \\\\");
-		        System.out.println("\\hline");
-		        for (Map.Entry<String, Double> entry : sortedMap.entrySet()) {
-		            System.out.printf("%s & %.3f \\\\\n", entry.getKey(), entry.getValue());
-		        }
-		        System.out.println("\\hline");
-		        System.out.println("\\end{tabular}");
-		        System.out.println("\\caption{First chord probabilities in an \textbf{F} key context");
-		        System.out.println("\\label{table:A_patterns_probabilities}");
-		        System.out.println("\\end{table}");
 		
-*/		
 		// calculate probabilities of chords transitions
 		calculateChordsTransitionProbabilties( songs );
-/*		
-		// Sort the filtered map by value in descending order
-        Map<String, Double> sortedMap = chordPairsTransitionsProbabilities.entrySet().stream()
-                .filter(entry -> entry.getKey().equals("F"))
-                .flatMap(entry -> entry.getValue().entrySet().stream())
-                .sorted(Map.Entry.<String, Double>comparingByValue().reversed())
-                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (oldValue, newValue) -> oldValue, LinkedHashMap::new));
-        Map<String,Double> filteredMap = sortedMap.entrySet().stream()
-        		.filter(e -> e.getKey().contains("GM7>"))
-        		.collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (oldValue, newValue) -> oldValue, LinkedHashMap::new));
-        // Print the LaTeX table
-        System.out.println("\\begin{table}[h]");
-        System.out.println("\\centering");
-        System.out.println("\\begin{tabular}{|c|c|}");
-        System.out.println("\\hline");
-        System.out.println("Chord & Probability \\\\");
-        System.out.println("\\hline");
-        for (Map.Entry<String, Double> entry : filteredMap.entrySet()) {
-            System.out.printf("%s & %.3f \\\\\n", entry.getKey(), entry.getValue());
-        }
-        System.out.println("\\hline");
-        System.out.println("\\end{tabular}");
-        System.out.println("\\caption{First chord probabilities in an \textbf{F} key context");
-        System.out.println("\\label{table:A_patterns_probabilities}");
-        System.out.println("\\end{table}");
-        System.out.println(filteredMap.size());
-        System.out.println(filteredMap.entrySet().stream().collect(Collectors.summingDouble(Map.Entry::getValue)));
-*/		   
-		//System.out.println( corpus.getSongs() );
 	}
 	
 	/**
